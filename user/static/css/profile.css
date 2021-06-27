@@ -1,0 +1,163 @@
+/*Profile*/
+
+.profile {
+    display: flex;
+    margin: 1rem auto;
+    padding: 1rem 4rem;
+    width: 900px;
+    font-size: 1.1rem;
+}
+
+.profileTitleImage {
+    width: 10rem;
+    border-radius: 50%;
+    margin-right: 5rem;
+}
+
+.profileDescription {
+    list-style: none;
+}
+
+.profileDescriptionUserName {
+    font-size: 1.5rem;
+}
+
+.profileEditButton {
+    margin-top: 2rem;
+    background-color: #F0F2F5;
+    border: 1px solid #262626;
+}
+
+.profileRule {
+    width: 900px;
+    margin: 0 auto 3rem auto;
+}
+
+
+/* Post */
+
+/* Post Title */
+
+.post {
+    margin: 1rem auto;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    width: 600px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .2);
+}
+
+.postTitle {
+    padding: 1rem 1rem 0 1rem;
+    display: flex;
+}
+
+.postTitle a {
+    text-decoration: none;
+    color: #262626;
+}
+
+.postTitleImage {
+    width: 3.5rem;
+    border-radius: 50%;
+}
+
+.postTitleUser {
+    margin-left: 0.5rem;
+}
+
+.postTitleTime {
+    font-size: 0.8rem;
+    color: #65676B;
+}
+
+/* Post Content */
+
+.postContent {
+    padding: 0 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.postContentSeeMore {
+    display: inline-block;
+    text-decoration: none;
+    color: #262626;
+    font-weight: bold;
+}
+
+.postContentSeeMore:hover {
+    color: #262626;
+    text-decoration: underline;
+}
+
+/* Post Image */
+
+.postImage {
+    width: 100%;
+}
+
+/* Post Bottom */
+
+.postBottom {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.postCount {
+    display: flex;
+    justify-content: space-between;
+}
+
+.postRule {
+    margin: 0.5rem 0.5rem 0.1rem 0.5rem;
+}
+
+.postAction {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+}
+
+.postActionButton {
+    width: 33%;
+}
+
+.postActionButton a {
+    text-decoration: none;
+    color: #262626;
+}
+
+.unlikeButton {
+    color: #ED4956;
+}
+
+
+/* Responsive Design */
+
+@media only screen and (max-width: 900px) {
+    .profile {
+        width: 90vw;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profileTitleImage {
+        margin-right: 0;
+    }
+
+    .profileDescription {
+        margin-top: 1rem;
+        text-align: center;
+    }
+
+    .postRule {
+        width: 90vw;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .post {
+        width: 90vw;
+    }
+}

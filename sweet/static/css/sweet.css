@@ -1,0 +1,175 @@
+/* Creating the Post */
+
+.createPost{
+    margin: 1rem auto;
+    padding: 1rem 1rem;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    width: 600px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .2);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+
+.createPostImage{
+    width: 3.5rem;
+    border-radius: 50%;
+}
+
+.createPostUser{
+    color: #65676B;
+    background-color: #F0F2F5 ;
+    border-radius: 10rem;
+    padding: 0.8rem 1rem;
+    width: 90%;
+    margin: 0 1rem;
+    font-size: 1.1rem;
+}
+
+.createPostCaption{
+    outline: 0;
+    border: none;
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+.uploadPostImage{
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #767676;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .2);
+    border-radius: 0.5rem;
+    text-align: center;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+.uploadPostImageNone{
+    display: none;
+}
+
+.createActionButton{
+    text-align: center;
+    width: 100%;
+    color: white;
+    background-color:#A033FF ;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .2);
+}
+
+.createActionButton:hover{
+    color: white;
+    background-color: #5d04a8;
+}
+
+/* Post */
+
+/* Post Title */
+
+.post {
+    margin: 1rem auto;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    width: 600px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .2);
+}
+
+.postTitle {
+    padding: 1rem 1rem 0 1rem;
+    display: flex;
+}
+
+.postTitle a {
+    text-decoration: none;
+    color: #262626;
+}
+
+.postTitleImage {
+    width: 3.5rem;
+    border-radius: 50%;
+}
+
+.postTitleUser{
+    margin-left: 0.5rem;
+}
+
+.postTitleTime{
+    font-size: 0.8rem;
+    color: #65676B;
+}
+.postDropdown{
+    margin-left: auto;
+}
+/* Post Content */
+
+.postContent{
+    padding: 0 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+.postContentSeeMore{
+    display: inline-block;
+    text-decoration: none;
+    color: #262626;
+    font-weight: bold;
+}
+
+.postContentSeeMore:hover{
+    color: #262626;
+    text-decoration: underline;
+}
+
+/* Post Image */
+
+.postImage {
+    width: 100%;
+}
+
+/* Post Bottom */
+
+.postBottom{
+    padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.postCount{
+    display: flex;
+    justify-content: space-between;
+}
+
+.postRule{
+    margin: 0.5rem 0.5rem 0.1rem 0.5rem;
+}
+
+.postAction{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+}
+
+.postActionButton{
+    width: 33%;
+}
+
+.postActionButton a{
+    text-decoration: none;
+    color: #262626;
+}
+
+.unlikeButton{
+    color: #ED4956;
+}
+
+/* Responsive Design */
+
+@media only screen and (max-width: 700px) {
+    .post {
+        width: 90vw;
+    }
+    .createPost{
+        width: 90vw;
+    }
+}
+

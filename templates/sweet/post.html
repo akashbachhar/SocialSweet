@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/sweet.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+    <script src="https://kit.fontawesome.com/5d727788a4.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block title %} {{ postSweet.title }} {% endblock %}
+
+{% block body %}
+    <!-- Post -->
+
+    <div class="post">
+
+        <!-- Post Title  -->
+
+        <div class="postTitle">
+            <div><img src="{{ postSweet.user.userprofile.profileImage.url }}" class="postTitleImage" alt="profileImage">
+            </div>
+            <div class="postTitleUser">
+                <a href="{% url 'profilePage' postSweet.user.username %}"> {{ postSweet.user.first_name }} {{ postSweet.user.last_name }}</a>
+                <div class="postTitleTime">{{ postSweet.time | naturaltime }}</div>
+            </div>
+        </div>
+
+        <!-- Post Content -->
+
+        <div class="postContent"> {{ postSweet.content }} </div>
+
+        <!-- Post Image -->
+
+        <img class="postImage" src="{{ postSweet.image.url }}" alt="postImage">
+
+        <!-- Post Bottom -->
+
+        <div class="postBottom">
+            <div class="postCount">
+                <div id="likeCount{{ postSweet.pk }}"> {{ postSweet.likes.count }} Like</div>
+                <div>{{ postSweet.postcomment_set.count }} Comment</div>
+            </div>
+        </div>
+
+        {% if user.is_authenticated %}
+            <hr class="postRule">
+
+            <div class="postAction">
+                <div class="postActionButton">
+                    {% if user in postSweet.likes.all %}
+                        <div data-sid="{{ postSweet.pk }}" class="btn likeButton"><span class="unlikeButton"> <i
+                                class="fas fa-heart"> </i> </span> Unlike
+                        </div>
+                    {% else %}
+                        <div data-sid="{{ postSweet.pk }}" class="btn likeButton"><i class="far fa-heart"> </i> Like
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="postActionButton"><a href="{% url 'post' postSweet.pk %}"><i
+                        class="far fa-comment-alt"></i> Comment </a>
+                </div>
+
+                <div class="postActionButton"><i class="fas fa-share-alt"></i> Share</div>
+            </div>
+        {% endif %}
+    </div>
+
+    {% if user.is_authenticated %}
+        <div class="createComment">
+            <form action="/postComment" method="post"> {% csrf_token %}
+                <input type="text" name="comment" class="commentForm" placeholder="Do a comment !">
+                <input type="hidden" name="postSerial" value={{ postSweet.serial }}>
+                <input type="submit" class="btn" value="💬">
+            </form>
+        </div>
+
+    {% endif %}
+
+    {% if comment %}
+        <div class="comment">
+
+            {% for comment in comment %}
+
+                <div><strong>{{ comment.comment }}</strong> by {{ comment.user.first_name }}
+                    {{ comment.time | naturaltime }}
+
+                    {% if user.is_authenticated %}
+                        {% if user.id == comment.user.id %}
+
+                            <a href="{% url 'deleteComment' comment.pk %}"> <i class="fas fa-trash"
+                                                                               style="color: #0088FF"></i> </a>
+                        {% endif %}
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+    {% endif %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+
+    {% include 'sweet/ajax.html' %}
+
+
+{% endblock %}

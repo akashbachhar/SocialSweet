@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="/static/css/profile.css">
+
+{% endblock %}
+
+{% block title %} {{ user.username }} {% endblock %}
+
+{% block body %}
+
+    {% if userPage in users %}
+        <div class="profile">
+            <div>
+                <img src="{{ userPage.userprofile.profileImage.url }}" alt="profileImage" class="profileTitleImage">
+            </div>
+
+            <div>
+                <div class="profileDescription">
+                    <div class="profileDescriptionUserName">  {{ userPage.username }} </div>
+                    <div><strong> {{ userPage.first_name }} {{ userPage.last_name }} </strong></div>
+                    <div> {{ userProfile.profileAbout }}</div>
+                    <div> {{ userProfile.gender }}</div>
+                    <div> {{ userProfile.profileRelationship }}</div>
+                </div>
+
+
+                {% if user.is_authenticated %}
+                    {% if user.id == userPage.id %}
+                        <!-- Edit Profile Modal Button -->
+                        <button type="button" class="btn profileEditButton" data-bs-toggle="modal"
+                                data-bs-target="#editProfileModal">
+                            Edit Profile
+                        </button>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+        </div>
+
+        <!-- Edit User Profile -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editProfileModalLabel"> Edit Profile</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/user/profilePage/" method="post"
+                              enctype="multipart/form-data"> {% csrf_token %}
+                            {{ userUpdateForm.as_p }}
+                            {{ userProfileForm.as_p }}
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <hr class="profileRule">
+        {% if posts %}
+            {% for post in posts %}
+
+                <!-- Post -->
+
+                <div class="post">
+
+                    <!-- Post Title  -->
+
+                    <div class="postTitle">
+                        <div><img src="{{ post.user.userprofile.profileImage.url }}" class="postTitleImage"
+                                  alt="profileImage"></div>
+                        <div class="postTitleUser">
+                            <a href="{% url 'profilePage' post.user.username %}"> {{ post.user.first_name }} {{ post.user.last_name }}</a>
+                            <div class="postTitleTime">{{ post.time | naturaltime }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Post Content -->
+
+                    <div class="postContent"> {{ post.content|truncatechars:160 }}
+                        {% if post.content|length >= 160 %}
+                            <a href="{% url 'post' post.pk %}" class="postContentSeeMore"> See more </a>
+                        {% endif %}
+                    </div>
+
+                    <!-- Post Image -->
+
+                    <img class="postImage" src="{{ post.image.url }}" alt="postImage">
+
+                    <!-- Post Bottom -->
+
+                    <div class="postBottom">
+                        <div class="postCount">
+                            <div id="likeCount{{ post.pk }}"> {{ post.likes.count }} Like</div>
+                            <div>{{ post.postcomment_set.count }} Comment</div>
+                        </div>
+
+                        {% if user.is_authenticated %}
+                            <hr class="postRule">
+
+                            <div class="postAction">
+                                <div class="postActionButton">
+                                    {% if user in post.likes.all %}
+                                        <div data-sid="{{ post.pk }}" class="btn likeButton"><span class="unlikeButton"> <i
+                                                class="fas fa-heart"> </i> </span> Unlike
+                                        </div>
+                                    {% else %}
+                                        <div data-sid="{{ post.pk }}" class="btn likeButton"><i
+                                                class="far fa-heart"> </i> Like
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="postActionButton"><a href="{% url 'post' post.pk %}"><i
+                                        class="far fa-comment-alt"></i> Comment </a>
+                                </div>
+                                <div class="postActionButton"><i class="fas fa-share-alt"></i> Share</div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            {% endfor %}
+        {% else %}
+            <h1> No Post Available</h1>
+        {% endif %}
+    {% else %}
+        <h1> Profile Not Found </h1>
+    {% endif %}
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+
+    {% include 'sweet/ajax.html' %}
+{% endblock %}

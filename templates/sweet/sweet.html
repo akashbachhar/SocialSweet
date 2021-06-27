@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/sweet.css' %}">
+    <script src="https://kit.fontawesome.com/5d727788a4.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block title %} Social Sweet {% endblock %}
+
+{% block body %}
+
+    <!-- Button trigger createPost -->
+    {% if request.user.is_authenticated %}
+        <div class="createPost" data-bs-toggle="modal" data-bs-target="#createPostModal">
+            <div><img src="{{ request.user.userprofile.profileImage.url }}" class="createPostImage" alt="profileImage">
+            </div>
+            <div class="createPostUser"> Post a Sweet, {{ request.user.first_name }} ?</div>
+        </div>
+
+    {% endif %}
+
+    <!-- createPost Modal -->
+    <div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createPostModalLabel">Create Post</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form action="/" method="post" enctype="multipart/form-data"> {% csrf_token %}
+
+                        <div class="mb-3">
+                            {{ newPost.content }}
+                        </div>
+                        <label class="mb-3 uploadPostImage" for="id_image"> <i class="fas fa-file-image"
+                                                                               style="color: green "></i> Add Image
+                        </label>
+                        <div class="uploadPostImageNone">
+                            {{ newPost.image }}
+                        </div>
+
+
+                        <div>
+                            <button type="submit" class="btn createActionButton">Post</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    {% for post in posts %}
+
+        <!-- Post -->
+
+        <div class="post">
+
+            <!-- Post Title  -->
+
+            <div class="postTitle">
+                <div><img src="{{ post.user.userprofile.profileImage.url }}" class="postTitleImage" alt="profileImage">
+                </div>
+                <div class="postTitleUser">
+                    <a href="{% url 'profilePage' post.user.username %}"> {{ post.user.first_name }} {{ post.user.last_name }}</a>
+                    <div class="postTitleTime">{{ post.time | naturaltime }}</div>
+                </div>
+
+                {% if user.is_authenticated %}
+                    {% if user.id == post.user.id %}
+
+                        <div class="dropdown postDropdown">
+                            <a class="dropdown-toggle btn-lg" type="button" id="dropdownMenuButton1"
+                               data-bs-toggle="dropdown" aria-expanded="false">️
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="{% url 'editPost' post.pk %}">Edit</a></li>
+                                <li><a class="dropdown-item" href="{% url 'deletePost' post.pk %}">Delete</a></li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <!-- Post Content -->
+
+            <div class="postContent"> {{ post.content|truncatechars:160 }}
+                {% if post.content|length >= 160 %}
+                    <a href="{% url 'post' post.pk %}" class="postContentSeeMore"> See more </a>
+                {% endif %}
+            </div>
+
+            <!-- Post Image -->
+
+            <img class="postImage" src="{{ post.image.url }}" alt="postImage">
+
+            <!-- Post Bottom -->
+
+            <div class="postBottom">
+                <div class="postCount">
+                    <div id="likeCount{{ post.pk }}"> {{ post.likes.count }} Like</div>
+                    <div>{{ post.postcomment_set.count }} Comment</div>
+                </div>
+
+                {% if user.is_authenticated %}
+                    <hr class="postRule">
+
+                    <div class="postAction">
+                        <div class="postActionButton">
+                            {% if user in post.likes.all %}
+                                <div data-sid="{{ post.pk }}" class="btn likeButton"><span class="unlikeButton"> <i
+                                        class="fas fa-heart"> </i> </span> Unlike
+                                </div>
+                            {% else %}
+                                <div data-sid="{{ post.pk }}" class="btn likeButton"><i class="far fa-heart"> </i> Like
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="postActionButton"><a href="{% url 'post' post.pk %}"><i
+                                class="far fa-comment-alt"></i> Comment </a>
+                        </div>
+
+                        <div class="postActionButton"><i class="fas fa-share-alt"></i> Share</div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    {% endfor %}
+
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+
+    {% include 'sweet/ajax.html' %}
+
+{% endblock %}

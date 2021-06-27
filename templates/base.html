@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+
+{% load static %}
+{% load humanize %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+     <link rel="shortcut icon" href="{% static 'icon/favicon.ico' %}"/>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rancho&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <script src="https://kit.fontawesome.com/5d727788a4.js" crossorigin="anonymous"></script>
+
+    {% block link %} {% endblock %}
+    <title> {% block title %} {% endblock %}</title>
+</head>
+
+<style>
+    body {
+        background-color: #F0F2F5;
+        font-family: Roboto, sans-serif;
+        color: #262626;
+    }
+
+    .socialSweet {
+        font-family: 'Rancho', cursive;
+        font-size: 2rem;
+        padding: 0;
+    }
+
+    .socialSweetSpan {
+        margin-left: 2rem;
+        font-weight: bold;
+        background-image: linear-gradient(to right, #0088FF, #A033FF, #FF5C87);
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+
+    }
+
+    .searchForm {
+        border-radius: 40px;
+        margin: auto;
+    }
+
+    .navClass {
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .2);
+    }
+
+    .navControl {
+        display: inline-block;
+        color: #FF5C87;
+        font-size: 1.2rem;
+        cursor: pointer;
+        margin-right: 2rem;
+    }
+
+    .navControl:hover {
+        border-bottom: 2px solid #0088FF;
+
+    }
+
+    .navAction a {
+        text-decoration: none;
+    }
+
+    .navAction a:hover {
+        text-decoration: none;
+        color: #FF5C87;
+    }
+
+    .navInput{
+        outline: 0;
+        border: none;
+        border-bottom: 1px solid #262626;
+        text-align: center;
+        width: 85%;
+
+    }
+
+    .navInputLabel{
+        color:#0088FF ;
+        margin-right: 1.5rem;
+    }
+
+    .actionButton{
+        text-align: center;
+        width: 100%;
+        background-color:#FF5C87 ;
+        border-radius: 0.5rem;
+        color: white;
+    }
+
+    .actionButton:hover{
+        color: white;
+        background-color: #ee275b;
+    }
+
+    .togglerButton {
+        border: 0;
+    }
+
+    .togglerIcon {
+        color: #A033FF;
+    }
+
+    @media only screen and (max-width: 1000px) {
+    .socialSweet {
+        margin: auto;
+        }
+    }
+</style>
+
+<body>
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light sticky-top navClass">
+    <div class="container-fluid">
+        <a class="navbar-brand socialSweet" href="{% url 'sweet' %}"> <span
+                class="socialSweetSpan"> Social Sweet </span> </a>
+        <button class="navbar-toggler togglerButton" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="togglerIcon"><i class="fas fa-chevron-circle-down"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="d-flex m-auto">
+                <input class="form-control searchForm" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+
+            {% if user.is_authenticated %}
+                <!---logout button -->
+
+                <div class="navAction">
+                    <a class="navControl"
+                       href="{% url 'profilePage' user.username %}"> {{ request.user.first_name }}</a>
+                    <a class="navControl" href="{% url 'handelLogout' %}">Log Out</a>
+
+                </div>
+
+            {% else %}
+
+                <!-- Button trigger Sign Up modal -->
+                <div class="navControl" data-bs-toggle="modal" data-bs-target="#signupModal">
+                    Sign Up
+                </div>
+
+                <!-- Button trigger Login modal -->
+                <div class="navControl" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Log In
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</nav>
+
+<!-- Sign Up Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel"> Create an Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form action="/user/signup/" method="post"> {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="username" class="navInputLabel"><i class="fas fa-user"></i></label>
+                        <input type="text" class="navInput" id="username" name="username" placeholder="Username" required autocomplete="off">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="firstname" class="navInputLabel"><i class="fas fa-id-badge"></i></label>
+                        <input type="text" class="navInput" id="firstname" name="firstname" placeholder="First Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lastname" class="navInputLabel"><i class="fas fa-id-badge"></i> </label>
+                        <input type="text" class="navInput" id="lastname" name="lastname" placeholder="Last Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="navInputLabel"><i class="fas fa-envelope"></i></label>
+                        <input type="email" class="navInput" id="email" name="email" placeholder="Email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password1" class="navInputLabel"><i class="fas fa-lock"></i></label>
+                        <input type="password" class="navInput" id="password1" name="password1" placeholder="Password" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password2" class="navInputLabel"><i class="fas fa-lock"></i></label>
+                        <input type="password" class="navInput" id="password2" name="password2" placeholder="Confirm Password" required>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn actionButton">Create</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Log In:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form action="/user/login/" method="post"> {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="usernameLogin" class="navInputLabel"><i class="fas fa-user"></i></label>
+                        <input type="text" class="navInput" id="usernameLogin" name="username" placeholder="Username" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password1Login" class="navInputLabel"><i class="fas fa-lock"></i></label>
+                        <input type="password" class="navInput" id="password1Login" name="password1" placeholder="Password" required>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn actionButton">Log In</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- message -->
+
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show message" role="alert">
+        <strong>Message : </strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+
+{% block body %}
+{% endblock %}
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"></script>
+<script
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+<script>
+    setTimeout(fadeOut, 2000);
+    function fadeOut(){
+        $(".message").fadeOut().empty();
+    }
+</script>
+</body>
+
+</html>

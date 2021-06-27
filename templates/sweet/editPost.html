@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block link %}
+   <link rel="stylesheet" href="{% static 'css/editPost.css' %}">
+    <script src="https://kit.fontawesome.com/5d727788a4.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block title %} {{ postBlog.title }} {% endblock %}
+{% block body %}
+
+
+    {% if user.is_authenticated %}
+        {% if user.id == editPost.user.id %}
+            <div class="editPost">
+                <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+                    <div class="editCaption">
+                        {{ editPostForm.content }}
+                    </div>
+
+                    <div class="editImage">
+                        <div>
+                            <i class="fas fa-file-image" style="color: green "></i> Change Image
+                        </div>
+                       {{ editPostForm.image }}
+                    </div>
+
+                    <input type="submit" class="btn editPostButton" value="Post">
+                </form>
+            </div>
+
+        {% endif %}
+    {% endif %}
+{% endblock %}

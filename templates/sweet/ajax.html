@@ -1,0 +1,42 @@
+<script>
+
+    $(".post").on("click", ".likeButton", function () {
+        let id = $(this).attr("data-sid");
+        let csrf = $("input[name = csrfmiddlewaretoken]").val();
+
+        let myData = {id: id, csrfmiddlewaretoken: csrf};
+        let mythis = this;
+
+        $.ajax({
+            url: "{% url 'likePost' %}",
+            method: "POST",
+            data: myData,
+            success: function (data) {
+                if (data.status === 1) {
+                    let likes = data.likes + " Like";
+                    let postLike = $("#likeCount" + id);
+                    postLike.html(likes);
+
+                    let likeButton = "";
+
+                    if (data.likeStatus === "like") {
+                        likeButton = "<i class='far fa-heart'></i>" + " Like";
+                    }
+
+                    if (data.likeStatus === "unlike") {
+                        likeButton = "<span class='unlikeButton'> <i class='fas fa-heart'> </i> </span>" + " Unlike";
+                    }
+
+                    $(mythis).html(likeButton);
+
+                }
+
+                if (data.status === 0) {
+                    console.log("Something went wrong !")
+                }
+            }
+        });
+
+    })
+
+</script>
