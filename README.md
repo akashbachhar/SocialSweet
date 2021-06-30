@@ -19,8 +19,11 @@ This is a social media website with following features a registered user can do.
 ## Screenshots
 
 <img src="./sweet/static/UI/1.png" alt="UI"/>
-<img src="./sweet/static/UI/2.png" alt="UI" width="50%"/>
-<img src="./sweet/static/UI/3.png" alt="UI" width="50%"/>
+<p>
+<img src="./sweet/static/UI/2.png" alt="UI" width="500"/>
+<img src="./sweet/static/UI/3.png" alt="UI" width="500"/>
+</p>
+
 
   
 ## Tech Stack
