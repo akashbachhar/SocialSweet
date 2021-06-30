@@ -18,7 +18,9 @@ This is a social media website with following features a registered user can do.
   
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+<img src="./sweet/static/UI/1.png" alt="UI"/>
+<img src="./sweet/static/UI/2.png" alt="UI"/>
+<img src="./sweet/static/UI/3.png" alt="UI"/>
 
   
 ## Tech Stack
