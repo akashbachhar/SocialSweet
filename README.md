@@ -20,8 +20,8 @@ This is a social media website with following features a registered user can do.
 
 <img src="./sweet/static/UI/1.png" alt="UI"/>
 <p>
-<img src="./sweet/static/UI/2.png" alt="UI" width="500"/>
-<img src="./sweet/static/UI/3.png" alt="UI" width="500"/>
+<img src="./sweet/static/UI/2.png" alt="UI" width="50%"/>
+<img src="./sweet/static/UI/3.png" alt="UI" width="50%"/>
 </p>
 
 
