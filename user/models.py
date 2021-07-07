@@ -6,11 +6,14 @@ class UserProfile(models.Model):
     GENDER = (
         ('👱🏻 Male', '👱🏻 Male'),
         ('🙍🏻 Female', '🙍🏻 Female'),
+        ('🏳‍🌈 LGBT', '🏳‍🌈 LGBT'),
     )
 
     RELATIONSHIP = (
         ('😏 Single', '😏 Single'),
         ('😍 Comitted', '😍 Comitted'),
+        ('👨‍👩‍‍ Married', '👨‍👩‍ Married'),
+        ('💔 Divorced', '💔 Divorced'),
     )
 
     serial = models.AutoField(primary_key=True)
