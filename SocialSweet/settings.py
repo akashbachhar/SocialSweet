@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
+
+import django_heroku
 from django.contrib.messages import constants as messages
 from decouple import config
 
@@ -27,7 +30,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['socialsweet.herokuapp.com']
 
 # Application definition
 
@@ -77,13 +80,25 @@ WSGI_APPLICATION = 'SocialSweet.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': config('NAME'),
+#         'USER': config('USER_NAME'),
+#         'PASSWORD': config('USER_PASSWORD'),
+#         'HOST': config('HOST')
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('NAME'),
-        'USER': config('USER_NAME'),
-        'PASSWORD': config('USER_PASSWORD'),
-        'HOST': config('HOST')
+        'NAME': 'd65kqjcc85vcmq',
+        'USER': 'cbcnrjmepivowt',
+        'PASSWORD': 'acaf824cd2d0df4b2788257ee3b442f5acbc23dd5ad1ca91536aa18419ee42ff',
+        'HOST': 'ec2-54-173-31-84.compute-1.amazonaws.com',
+        'PORT': '5432',
+
     }
 }
 
@@ -121,8 +136,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+
+STATIC_ROOT = MEDIA_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATIC_ROOT = '/static/'
+django_heroku.settings(locals())
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
