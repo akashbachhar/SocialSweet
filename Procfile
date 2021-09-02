@@ -1,3 +1,3 @@
 release: python manage.py migrate
-web: gunicorn socialsweet.wsgi --log-file=-
+web: gunicorn SocialSweet.wsgi --log-file=-
 
