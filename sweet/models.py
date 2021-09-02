@@ -7,7 +7,7 @@ class Post(models.Model):
     serial = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     content = models.TextField(blank=True)
-    image = models.ImageField(null=True, Blank=True)
+    image = models.ImageField(null=True, blank=True)
     time = models.DateTimeField(default=now)
     likes = models.ManyToManyField(User, related_name='post_like')
 

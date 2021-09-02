@@ -18,7 +18,7 @@ class UserProfile(models.Model):
 
     serial = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profileImage = models.ImageField(upload_to='profileImage', default='defaultProfileImage.png')
+    profileImage = models.ImageField(null=True, blank=True)
     profileAbout = models.TextField(max_length=1000, blank=True)
     gender = models.CharField(max_length=100, choices=GENDER, blank=True)
     profileRelationship = models.CharField(max_length=100, choices=RELATIONSHIP, blank=True)
